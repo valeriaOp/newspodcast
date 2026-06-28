@@ -6,9 +6,10 @@ Personal pet project: AI-summarized daily news podcast. Pulls multiple RSS feeds
 
 - **Framework**: Laravel Zero (PHP 8.2+). CLI-only — no web admin needed in v1.
 - **LLM**: Google Gemini 2.5 Flash via REST (`generativelanguage.googleapis.com`). Used for both article selection and Ukrainian script generation. Free tier covers all usage with large margin.
-- **TTS**: Google Gemini 2.5 Flash TTS preview (`gemini-2.5-flash-preview-tts`). Single call per episode, no chunking. Default voice: **Charon** (male, informative tone) — adjustable later.
+- **TTS**: Google Gemini 2.5 Flash TTS preview (`gemini-2.5-flash-preview-tts`). Single call per episode, no chunking. **Two-speaker dialogue** format via `multiSpeakerVoiceConfig` — default voices `Puck` (Speaker1, male, upbeat) + `Aoede` (Speaker2, female, breezy), chosen to feel similar to Google NotebookLM hosts. The script-writer prompt produces `Speaker1:` / `Speaker2:` labeled lines that the TTS API maps to the two voice configs.
 - **Audio format**: WAV (PCM-in-WAV header wrapped in PHP). The hosting provider does NOT support ffmpeg, so MP3 conversion is off the table for v1. ~14 MB per 5-minute episode.
 - **Storage**: Local disk only. No database in v1 — file-based state (`.wav` + `.txt` sidecar per episode). May add SQLite later for cross-run article dedup.
+- **Prompts**: Externalized as plain-text templates in `storage/prompts/` (`article_selector.txt`, `script_writer.txt`) with `{{placeholder}}` substitution. Loaded fresh from disk on every cron run — edits take effect immediately, no redeploy or restart required. Loader: `App\Infrastructure\Prompts\PromptLoader`. Directory overridable via `PODCAST_PROMPTS_DIR`.
 - **Hosting**: cPanel shared hosting (free via Namecheap employee discount). Constraints: no ffmpeg, Python availability unconfirmed, cron job runtime limit unconfirmed.
 
 ## Hard constraints

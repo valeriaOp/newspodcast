@@ -1,0 +1,26 @@
+{
+    "hooks": {
+        "Notification": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "gst-play-1.0 --quiet /home/valeriaoparina/Downloads/spongebob-bell-ding.mp3",
+                        "async": true
+                    }
+                ]
+            }
+        ],
+        "Stop": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "gst-play-1.0 --quiet /home/valeriaoparina/Downloads/spongebob-bell-ding.mp3",
+                        "async": true
+                    }
+                ]
+            }
+        ]
+    }
+}
